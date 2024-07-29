@@ -146,7 +146,7 @@ class InstancesDataset(torch.utils.data.Dataset):
 
 if __name__=="__main__":
     inst = InstanceDataset(
-        i_path="/mnt/sda2/tokichan/segment/output/visa/instance/capsules/train/good/023_16.JPG",
+        i_path="/home/tokichan/data/segment/output/visa/instance/capsules/train/good/023_16.JPG",
         imagesize=256,
         interval=20,
     )

@@ -17,7 +17,7 @@ from .config import amg_kwargs
 class InstAD(nn.Module):
     def __init__(self, dataset_root, class_name, few_shot=True) -> None:
         super(InstAD, self).__init__()
-        self.output_dirs = "/home/tokichan/JL/InstAD/instad_output"
+        self.output_dirs = "/home/tokichan/demo-system/InstAD/instad_output"
         self.device = "cuda"
         self.gpu = [0]
         self.samh_checkpoint = "/home/tokichan/segment-anything/ckpt/sam_vit_h_4b8939.pth"
@@ -157,14 +157,14 @@ class InstAD(nn.Module):
 
 if __name__ == '__main__':
 
-    dataset_root = "/mnt/sda2/tokichan/VisA_highshot/"
+    dataset_root = "/home/tokichan/data/VisA_highshot/"
     class_name = "macaroni2"
-    # dataset_root = "/mnt/sda2/tokichan/MPDD/"
+    # dataset_root = "/home/tokichan/data/MPDD/"
     # class_name = "tubes"
     
     ### anomaly detection
     instad = InstAD(dataset_root, class_name)
-    # anomaly_map, anomaly_score = instad("/mnt/sda2/tokichan/VisA_highshot/capsules/test/bubble,discolor/042.JPG")
+    # anomaly_map, anomaly_score = instad("/home/tokichan/data/VisA_highshot/capsules/test/bubble,discolor/042.JPG")
     
     ### speedtest
     import random

@@ -7,8 +7,8 @@ dataset_classes = {
 }
 
 ### config
-visa_path = "/mnt/sda2/tokichan/VisA_highshot"
-segment_output_path = "/mnt/sda2/tokichan/segment/output"
+visa_path = "/home/tokichan/data/VisA_highshot"
+segment_output_path = "/home/tokichan/data/segment/output"
 dino_ckpt_filename = "/home/tokichan/GroundingDINO/weights/groundingdino_swint_ogc.pth"
 dino_ckpt_config_filename = "/home/tokichan/GroundingDINO/groundingdino/config/GroundingDINO_SwinT_OGC.py"
 sam_ckpt = "/home/tokichan/segment-anything/ckpt/sam_vit_h_4b8939.pth"

@@ -10,9 +10,9 @@ from csad.main import CSAD
 from InstAD.run_single_shot import InstAD as InstAD
 from ShiZhi.main import main as ShiZhi
 
-mvtec_ad_root = "/mnt/sda2/tokichan/MVTec-AD"
-mvtec_loco_root = "/mnt/sda2/tokichan/MVTec_LOCO"
-visa_root = "/mnt/sda2/tokichan/VisA_highshot"
+mvtec_ad_root = "/home/tokichan/data/MVTec-AD"
+mvtec_loco_root = "/home/tokichan/data/MVTec_LOCO"
+visa_root = "/home/tokichan/data/VisA_highshot"
 
 
 def greet(model, dataset, class_name, input_image, index):
@@ -25,7 +25,7 @@ def greet(model, dataset, class_name, input_image, index):
         # result_image = np.clip(anomaly_map, 0, 1)
         result_image = (anomaly_map - np.min(anomaly_map)) / (np.max(anomaly_map) - np.min(anomaly_map))
         result_image = (result_image * 255).astype(np.uint8)
-        gt_mask = Image.open(show_images[index].replace("test","ground_truth")).convert("RGB")
+        gt_mask = Image.open(show_images[index].replace("test","ground_truth").replace(".png","/000.png")).convert("RGB")
     elif model == "InstAD":
         anomaly_map, anomaly_score = instad(input_image[index][0])
         anomaly_map = anomaly_map[0]

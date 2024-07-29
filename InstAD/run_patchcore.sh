@@ -1,9 +1,9 @@
 #!/bin/bash
-# instpath=/mnt/sda2/tokichan/segment/output/visa/instance
-instpath=/mnt/sda2/tokichan/segment/output/mpdd/instance
-# datapath=/mnt/sda2/tokichan/VisA_highshot
-datapath=/mnt/sda2/tokichan/MPDD
-outpath=/mnt/sda2/tokichan/visualize/patchcore
+# instpath=/home/tokichan/data/segment/output/visa/instance
+instpath=/home/tokichan/data/segment/output/mpdd/instance
+# datapath=/home/tokichan/data/VisA_highshot
+datapath=/home/tokichan/data/MPDD
+outpath=/home/tokichan/data/visualize/patchcore
 # datasets=('candle' 'capsules' 'macaroni1' 'macaroni2')
 datasets=('tubes')
 
