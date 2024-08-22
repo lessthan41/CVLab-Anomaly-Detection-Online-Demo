@@ -29,6 +29,7 @@ class ImageDataset(torch.utils.data.Dataset):
         instances=[],
         split=None,
         data_path=None,
+        class_name=None,
         **kwargs,
     ):
         super().__init__()
@@ -51,6 +52,7 @@ class ImageDataset(torch.utils.data.Dataset):
         self.transform_mask = transforms.Compose(self.transform_mask)
         self.split = split
         self.data_path = data_path
+        self.classnames_to_use = [class_name]
         self.augment_num = 1
         self.imagesize = (3, imagesize, imagesize)
 
@@ -59,15 +61,18 @@ class ImageDataset(torch.utils.data.Dataset):
         image = PIL.Image.open(image_path).convert("RGB")
         image = self.transform_img(image)
         if self.split == "test" and "good" not in image_path:
-            mask_path = os.path.join(
-                self.data_path, 
-                image_path.split("/instance/")[1].replace("test","ground_truth"),
-            )
-            _ = os.path.basename(mask_path)
-            # mask_path = os.path.join(os.path.dirname(mask_path), _.split("_")[0] + "_mask" + _[-4:])
-            mask_path = os.path.join(os.path.dirname(mask_path), _.split("_")[0] + "_mask.png")
-            mask = PIL.Image.open(mask_path).convert("L")
-            mask = self.transform_mask(mask)
+            try:
+                self.mask_path = os.path.join(
+                    self.data_path, 
+                    image_path.split("/instance/")[1].replace("test","ground_truth"),
+                )
+                _ = os.path.basename(mask_path)
+                # mask_path = os.path.join(os.path.dirname(mask_path), _.split("_")[0] + "_mask" + _[-4:])
+                mask_path = os.path.join(os.path.dirname(mask_path), _.split("_")[0] + "_mask.png")
+                mask = PIL.Image.open(mask_path).convert("L")
+                mask = self.transform_mask(mask)
+            except:
+                mask = torch.zeros([1, *image.size()[1:]])
         else:
             mask = torch.zeros([1, *image.size()[1:]])
 

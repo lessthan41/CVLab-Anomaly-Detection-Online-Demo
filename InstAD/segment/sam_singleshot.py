@@ -8,7 +8,7 @@ model_type = "vit_h"
 device="cuda"
 
 
-img = cv2.imread("/home/tokichan/data/VisA_highshot/capsules/test/bubble,discolor,scratch/096.JPG")
+img = cv2.imread("/home/anomaly/data/VisA_highshot/capsules/test/bubble,discolor,scratch/096.JPG")
 img = cv2.cvtColor(img, cv2.COLOR_BGR2RGB)
 
 sam = sam_model_registry[model_type](checkpoint=SAM_CHECKPOINT)

@@ -45,7 +45,7 @@ class MyPatchcore():
         
     def get_methods(self):
         get_patchcore = self.patch_core()
-        load_patchcore = self.patch_core_loader(patch_core_paths=[f"./InstAD/results/VisA_Results/fewshot/models/visa_{self.class_name}"])
+        load_patchcore = self.patch_core_loader(patch_core_paths=[f"/home/anomaly/demo-system/InstAD/results/VisA_Results/fewshot/models/visa_{self.class_name}"])
         get_sampler = self.my_sampler()
         get_dataloaders = self.dataset()
         return [get_patchcore, load_patchcore, get_sampler, get_dataloaders]
@@ -89,8 +89,8 @@ class MyPatchcore():
                     PatchCore = PatchCore_list[0]
                     LOGGER.info("Training model.")
                     torch.cuda.empty_cache()
-                else:
-                    imagesize = dataloaders["training"].dataset.imagesize
+                else: ### zero-shot
+                    imagesize = (3,256,256)
                     sampler = methods["get_sampler"](
                         self.device,
                     )
@@ -107,8 +107,6 @@ class MyPatchcore():
                             "Training models ({}/{})".format(i + 1, len(PatchCore_list))
                         )
                         torch.cuda.empty_cache()
-                        if not self.zero_shot:
-                            PatchCore.fit(dataloaders["training"])
         return PatchCore_list
 
     def run(
@@ -152,8 +150,8 @@ class MyPatchcore():
                     anomaly_labels, masks_gt = [], []
                     if self.zero_shot:
                         nn_method = common.FaissNN(on_gpu=True, num_workers=4, metric=self.dist_metric)
-                        data_to_iterate = dataloaders["testing"].dataset.data_to_iterate
-                        data_to_iterate = [data_to_iterate[i:i+self.batch_size] for i in range(0, len(data_to_iterate), self.batch_size)]
+                        data_to_iterate = [dataloaders["testing"].dataset.data_to_iterate]
+                        # data_to_iterate = [data_to_iterate[i:i+self.batch_size] for i in range(0, len(data_to_iterate), self.batch_size)]
                         imagesize = dataloaders["testing"].dataset.resize
                         with tqdm.tqdm(data_to_iterate, desc="Zero Shot Inferring...", leave=False) as data_iterator:
                             for data in data_iterator:
@@ -161,7 +159,7 @@ class MyPatchcore():
                                 all_instances = []
                                 for i in range(len(data)):
                                     classname, anomaly, instances, mask = data[i]
-                                    all_instances += instances
+                                    all_instances.append(instances)
                                 features = feature_cluster.get_normal_features(all_instances)
                                 ### redefine the patchcore.anomaly_scorer (knn with k=0.005 * len(features))
                                 nn_method.reset_index()
@@ -174,6 +172,7 @@ class MyPatchcore():
                                     instances=all_instances,
                                     split="test",
                                     data_path=self.data_path,
+                                    class_name=self.class_name
                                 )
                                 test_dataloader = torch.utils.data.DataLoader(
                                     test_instances,
@@ -383,7 +382,7 @@ class MyPatchcore():
         return ("get_patchcore", get_patchcore)
 
 
-    def my_sampler(name="identity", percentage=0.1):
+    def my_sampler(self, name="identity", percentage=0.1):
         def get_sampler(device):
             if name == "identity":
                 return sampler.IdentitySampler()

@@ -162,7 +162,7 @@ def color_masks(masks):
         color_mask[mask!=0] = np.random.randint(0,255,[3])
     return color_mask
 
-def generate_sliding_window(img_path, window_scale, output_path="/home/tokichan/research/segment/output"):
+def generate_sliding_window(img_path, window_scale, output_path="/home/anomaly/research/segment/output"):
     """generate sliding windows with window size=imgsize*window_scale for instance"""
     output_path = os.path.join(output_path, "windows")
     reset_folder(output_path)
@@ -250,7 +250,7 @@ def crop_instance(orig_img, inst_pos, target_size):
     y1,y2,x1,x2 = get_border(orig_img.shape, (coor_cx,coor_cy), orig_size)
     crop_img = orig_img[y1:y2,x1:x2]
     crop_img = make_padding(crop_img, orig_img, (y1,y2,x1,x2), orig_size)
-    # cv2.imwrite(f"/home/tokichan/research/segment/output/{class_name}_cropped.png", crop_img)
+    # cv2.imwrite(f"/home/anomaly/research/segment/output/{class_name}_cropped.png", crop_img)
     return crop_img, (y1,y2,x1,x2)
 
 def fit_mask(inst_mask, orig_img_shape, borders):
@@ -276,7 +276,7 @@ def fit_mask(inst_mask, orig_img_shape, borders):
             inst_mask = inst_mask[:,(iw-tw):]
     return inst_mask
 
-def remove_duplicate_mask(sam_masks, gsam_mask): #, path="/home/tokichan/research/segment/output/test_color_mask.png"):
+def remove_duplicate_mask(sam_masks, gsam_mask): #, path="/home/anomaly/research/segment/output/test_color_mask.png"):
     """remove similar mask in sam_masks with gsam_mask"""
     ### discard the similar mask in masks with gsam_mask
     if gsam_mask.ndim == 3:

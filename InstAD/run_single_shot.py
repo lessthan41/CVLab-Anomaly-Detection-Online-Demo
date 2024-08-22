@@ -17,13 +17,13 @@ from .config import amg_kwargs
 class InstAD(nn.Module):
     def __init__(self, dataset_root, class_name, few_shot=True) -> None:
         super(InstAD, self).__init__()
-        self.output_dirs = "/home/tokichan/demo-system/InstAD/instad_output"
+        self.output_dirs = "/home/anomaly/demo-system/InstAD/instad_output"
         self.device = "cuda"
         self.gpu = [0]
-        self.samh_checkpoint = "/home/tokichan/segment-anything/ckpt/sam_vit_h_4b8939.pth"
-        self.samb_checkpoint = "/home/tokichan/segment-anything/ckpt/sam_vit_b_01ec64.pth"
-        self.ckpt_filename = "/home/tokichan/GroundingDINO/weights/groundingdino_swint_ogc.pth"
-        self.ckpt_config_filename = "/home/tokichan/GroundingDINO/groundingdino/config/GroundingDINO_SwinT_OGC.py"
+        self.samh_checkpoint = "/home/anomaly/data/ckpt/sam_vit_h_4b8939.pth"
+        self.samb_checkpoint = "/home/anomaly/data/ckpt/sam_vit_b_01ec64.pth"
+        self.ckpt_filename = "/home/anomaly/GroundingDINO/weights/groundingdino_swint_ogc.pth"
+        self.ckpt_config_filename = "/home/anomaly/GroundingDINO/groundingdino/config/GroundingDINO_SwinT_OGC.py"
         self.refinement_list = ["capsules","tubes"]
 
         self.inst_path = os.path.join(self.output_dirs, "instance", f"{class_name}")
@@ -33,9 +33,9 @@ class InstAD(nn.Module):
         self.class_name = class_name
         self.few_shot = few_shot
         self.batch_size = 8
-        self.refine_batch_size = 8
+        self.refine_batch_size = 20
         self.target_size = 256
-        self.refine_step = 0.3 ### larger converge faster
+        self.refine_step = 1.0 ### larger converge faster
         self.refine = True if self.class_name in self.refinement_list else False
         self.sam_h = load_sam(self.samh_checkpoint, "vit_h", self.device)
         self.sam_b = load_sam(self.samb_checkpoint, "vit_b", self.device)
@@ -157,14 +157,14 @@ class InstAD(nn.Module):
 
 if __name__ == '__main__':
 
-    dataset_root = "/home/tokichan/data/VisA_highshot/"
+    dataset_root = "/home/anomaly/data/VisA_highshot/"
     class_name = "macaroni2"
-    # dataset_root = "/home/tokichan/data/MPDD/"
+    # dataset_root = "/home/anomaly/data/MPDD/"
     # class_name = "tubes"
     
     ### anomaly detection
     instad = InstAD(dataset_root, class_name)
-    # anomaly_map, anomaly_score = instad("/home/tokichan/data/VisA_highshot/capsules/test/bubble,discolor/042.JPG")
+    # anomaly_map, anomaly_score = instad("/home/anomaly/data/VisA_highshot/capsules/test/bubble,discolor/042.JPG")
     
     ### speedtest
     import random

@@ -24,14 +24,14 @@ for c in ["macaroni2"]:
 
 # load pickle
 # import pickle
-# with open("/home/tokichan/data/segment/output/mpdd/position/tubes/train/good/006.pkl", 'rb') as f:
+# with open("/home/anomaly/data/segment/output/mpdd/position/tubes/train/good/006.pkl", 'rb') as f:
 # 	a = pickle.load(f)
 # print(a)
 # print(len(a))
 
 # tidy visa mask
 # import glob
-# path = "/home/tokichan/data/VisA_highshot"
+# path = "/home/anomaly/data/VisA_highshot"
 # for classname in os.listdir(path):
 # 	gt_path = os.path.join(path, classname, "ground_truth")
 # 	for defect in os.listdir(gt_path):

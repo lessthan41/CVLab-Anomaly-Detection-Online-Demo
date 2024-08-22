@@ -7,11 +7,11 @@ dataset_classes = {
 }
 
 ### config
-visa_path = "/home/tokichan/data/VisA_highshot"
-segment_output_path = "/home/tokichan/data/segment/output"
-dino_ckpt_filename = "/home/tokichan/GroundingDINO/weights/groundingdino_swint_ogc.pth"
-dino_ckpt_config_filename = "/home/tokichan/GroundingDINO/groundingdino/config/GroundingDINO_SwinT_OGC.py"
-sam_ckpt = "/home/tokichan/segment-anything/ckpt/sam_vit_h_4b8939.pth"
+visa_path = "/home/anomaly/data/VisA_highshot"
+segment_output_path = "/home/anomaly/data/segment/output"
+dino_ckpt_filename = "/home/anomaly/GroundingDINO/weights/groundingdino_swint_ogc.pth"
+dino_ckpt_config_filename = "/home/anomaly/GroundingDINO/groundingdino/config/GroundingDINO_SwinT_OGC.py"
+sam_ckpt = "/home/anomaly/segment-anything/ckpt/sam_vit_h_4b8939.pth"
 ###
 
 if __name__ == '__main__':

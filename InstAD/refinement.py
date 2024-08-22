@@ -422,9 +422,10 @@ def refine(class_name, backbone, instance_dirs, image_path, mask_path, img_id, i
     areas = update_instance_areas(instances_mask, pos)
     max_area = areas.max(); min_area = areas.min()
     areas = (areas - min_area) / (max_area - min_area) if max_area != min_area else areas
+    iter=1
 
     ### mean shift
-    cluster_labels, cluster_centers = detect_outliers(areas, b=2)
+    cluster_labels, cluster_centers = detect_outliers(areas, b=(2-refine_step*iter))
 
     ### compute mean area of binary masks with all cluster_labels=0
     masks = np.array(instances_mask)[cluster_labels==0]
@@ -433,8 +434,8 @@ def refine(class_name, backbone, instance_dirs, image_path, mask_path, img_id, i
     ### tsne
     if False:
         tsne(mean_feats, instances, mask_input_path, output_filename, cluster_labels, iter=0, output_path=f"{working_directory}/output/iter=0")
-
-    iter=1
+    
+    iter += 1
     prev_cluster_labels = np.array([])
     while len(np.unique(cluster_labels)) > 1 and not np.array_equal(prev_cluster_labels, cluster_labels):
         ### update prev_cluster_labels

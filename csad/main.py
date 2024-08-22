@@ -86,9 +86,9 @@ class CSAD(nn.Module):
                                             features_only=True,
                                             out_indices=[1,2,3]).eval().cuda()
 
-        self.segmentor = torch.load(f'/home/tokichan/demo-system/csad/ckpt/segmentor_{category}_256.pth').eval().cuda()
+        self.segmentor = torch.load(f'/home/anomaly/demo-system/csad/ckpt/segmentor_{category}_256.pth').eval().cuda()
         self.num_classes = self.segmentor.fc2.conv3.out_channels-1
-        LGST_ckpt = torch.load(f'/home/tokichan/demo-system/csad/ckpt/best_{category}.pth')
+        LGST_ckpt = torch.load(f'/home/anomaly/demo-system/csad/ckpt/best_{category}.pth')
         self.teacher = LGST_ckpt['teacher'].eval().cuda()
         self.teacher.encoder = self.encoder
         self.student = LGST_ckpt['student'].eval().cuda()
@@ -119,11 +119,11 @@ class CSAD(nn.Module):
         # self.images = images
         
         # load normal hists
-        self.normal_hists = np.load(f'/home/tokichan/demo-system/csad/ckpt/normal_hists_{category}.npy')
+        self.normal_hists = np.load(f'/home/anomaly/demo-system/csad/ckpt/normal_hists_{category}.npy')
         # load normal patchhist
-        self.normal_patchhists = np.load(f'/home/tokichan/demo-system/csad/ckpt/normal_patchhists_{category}.npy')
+        self.normal_patchhists = np.load(f'/home/anomaly/demo-system/csad/ckpt/normal_patchhists_{category}.npy')
         # load normal segmaps
-        self.normal_segmaps = np.load(f'/home/tokichan/demo-system/csad/ckpt/normal_segmaps_{category}.npy')
+        self.normal_segmaps = np.load(f'/home/anomaly/demo-system/csad/ckpt/normal_segmaps_{category}.npy')
         
         
     def LGST_forward(self,image):
@@ -172,7 +172,7 @@ class CSAD(nn.Module):
         LGST_map = self.LGST_forward(img)
         patchhist_map = self.patcchhist_forward(img)
         
-        anomaly_map = LGST_map + patchhist_map*0.0
+        anomaly_map = LGST_map + patchhist_map*0.15
         anomaly_score = np.max(LGST_map) + np.max(patchhist_map)
         
         return anomaly_map, anomaly_score
